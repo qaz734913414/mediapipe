@@ -23,8 +23,8 @@ To build and run the TensorFlow example on desktop, run:
 # Note that this command also builds TensorFlow targets from scratch, it may
 # take a long time (e.g., up to 30 mins) to build for the first time.
 $ bazel build -c opt \
-    --define 'MEDIAPIPE_DISABLE_GPU=1' \
-    --define 'no_aws_support=true' \
+    --define MEDIAPIPE_DISABLE_GPU=1 \
+    --define no_aws_support=true \
     mediapipe/examples/desktop/object_detection:object_detection_tensorflow
 
 # It should print:
@@ -34,6 +34,7 @@ $ bazel build -c opt \
 # INFO: 2675 processes: 2673 linux-sandbox, 2 local.
 # INFO: Build completed successfully, 2807 total actions
 
+$ export GLOG_logtostderr=1
 # Replace <input video path> and <output video path>.
 # You can find a test video in mediapipe/examples/desktop/object_detection.
 $ bazel-bin/mediapipe/examples/desktop/object_detection/object_detection_tensorflow \
@@ -43,7 +44,7 @@ $ bazel-bin/mediapipe/examples/desktop/object_detection/object_detection_tensorf
 
 #### Graph
 
-![graph visualization](images/object_detection_desktop_tensorflow.png){width="800"}
+![graph visualization](images/object_detection_desktop_tensorflow.png)
 
 To visualize the graph as shown above, copy the text specification of the graph
 below and paste it into
@@ -188,7 +189,7 @@ node {
 To build and run the TensorFlow Lite example on desktop, run:
 
 ```bash
-$ bazel build -c opt --define 'MEDIAPIPE_DISABLE_GPU=1' \
+$ bazel build -c opt --define MEDIAPIPE_DISABLE_GPU=1 \
     mediapipe/examples/desktop/object_detection:object_detection_tflite
 
 # It should print:
@@ -198,6 +199,7 @@ $ bazel build -c opt --define 'MEDIAPIPE_DISABLE_GPU=1' \
 # INFO: 711 processes: 710 linux-sandbox, 1 local.
 # INFO: Build completed successfully, 734 total actions
 
+$ export GLOG_logtostderr=1
 # Replace <input video path> and <output video path>.
 # You can find a test video in mediapipe/examples/desktop/object_detection.
 $ bazel-bin/mediapipe/examples/desktop/object_detection/object_detection_tflite \
@@ -207,7 +209,7 @@ $ bazel-bin/mediapipe/examples/desktop/object_detection/object_detection_tflite 
 
 #### Graph
 
-![graph visualization](images/object_detection_desktop_tflite.png){width="400"}
+![graph visualization](images/object_detection_desktop_tflite.png)
 
 To visualize the graph as shown above, copy the text specification of the graph
 below and paste it into

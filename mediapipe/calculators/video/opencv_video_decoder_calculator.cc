@@ -154,8 +154,14 @@ class OpenCvVideoDecoderCalculator : public CalculatorBase {
                      cv::COLOR_BGRA2RGBA);
       }
     }
-    cc->Outputs().Tag("VIDEO").Add(image_frame.release(), timestamp);
-    decoded_frames_++;
+    // If the timestamp of the current frame is not greater than the one of the
+    // previous frame, the new frame will be discarded.
+    if (prev_timestamp_ < timestamp) {
+      cc->Outputs().Tag("VIDEO").Add(image_frame.release(), timestamp);
+      prev_timestamp_ = timestamp;
+      decoded_frames_++;
+    }
+
     return ::mediapipe::OkStatus();
   }
 
@@ -178,6 +184,7 @@ class OpenCvVideoDecoderCalculator : public CalculatorBase {
   int frame_count_;
   int decoded_frames_ = 0;
   ImageFormat::Format format_;
+  Timestamp prev_timestamp_ = Timestamp::Unset();
 };
 
 REGISTER_CALCULATOR(OpenCvVideoDecoderCalculator);

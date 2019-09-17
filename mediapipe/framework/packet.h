@@ -46,12 +46,6 @@ class Packet;
 namespace packet_internal {
 class HolderBase;
 
-// Defined in packet_serialization.cc
-// TODO Remove once friend statements are unneeded.
-::mediapipe::StatusOr<std::string> SerializePacket(const Packet& packet);
-::mediapipe::StatusOr<std::string> SerializePacketContents(
-    const Packet& packet);
-
 Packet Create(HolderBase* holder);
 Packet Create(HolderBase* holder, Timestamp timestamp);
 const HolderBase* GetHolder(const Packet& packet);
@@ -69,9 +63,6 @@ const HolderBase* GetHolder(const Packet& packet);
 // The Packet typically owns the object that it contains, but
 // PointToForeign allows a Packet to be constructed which does not
 // own it's data.
-//
-// See packet_serialization.h for helper functions to serialize and
-// deserialize packets.
 //
 // This class is thread compatible.
 class Packet {
@@ -128,18 +119,18 @@ class Packet {
   // responsible for ensuring that no other thread is doing anything
   // with the Packet.
   // Example usage:
-  //   ASSIGN_OR_RETURN(std::unique_ptr<ImageFrame> frame,
-  //                    p.ConsumeOrCopy<ImageFrame>());
+  //   ASSIGN_OR_RETURN(std::unique_ptr<Detection> detection,
+  //                    p.ConsumeOrCopy<Detection>());
   //   // The unique_ptr type can be omitted with auto.
-  //   ASSIGN_OR_RETURN(auto frame, p.ConsumeOrCopy<ImageFrame>());
+  //   ASSIGN_OR_RETURN(auto detection, p.ConsumeOrCopy<Detection>());
   //   If you would like to crash on failure (prefer ASSIGN_OR_RETURN):
-  //   auto frame = p.ConsumeOrCopy<ImageFrame>().ValueOrDie();
+  //   auto detection = p.ConsumeOrCopy<Detection>().ValueOrDie();
   //   // In functions which do not return ::mediapipe::Status use an adaptor
   //   // function as the third argument to ASSIGN_OR_RETURN.  In tests,
   //   // use an adaptor which returns void.
-  //   ASSIGN_OR_RETURN(auto frame, p.ConsumeOrCopy<ImageFrame>(),
+  //   ASSIGN_OR_RETURN(auto detection, p.ConsumeOrCopy<Detection>(),
   //                    _.With([](const ::mediapipe::Status& status) {
-  //                      EXPECT_OK(status);
+  //                      MP_EXPECT_OK(status);
   //                      // Use CHECK_OK to crash and report a usable line
   //                      // number (which the ValueOrDie alternative does not).
   //                      // Include a return statement if the return value is
@@ -200,13 +191,6 @@ class Packet {
   std::string DebugTypeName() const;
 
  private:
-  // TODO Change serialize_fn to take a Packet instead of a
-  // HolderBase, removing the need to friend these classes.
-  friend ::mediapipe::StatusOr<std::string> SerializePacket(
-      const Packet& packet);
-  friend ::mediapipe::StatusOr<std::string> SerializePacketContents(
-      const Packet& packet);
-
   friend Packet packet_internal::Create(packet_internal::HolderBase* holder);
   friend Packet packet_internal::Create(packet_internal::HolderBase* holder,
                                         class Timestamp timestamp);
@@ -511,7 +495,7 @@ inline Packet& Packet::operator=(const Packet& packet) {
 template <typename T>
 inline ::mediapipe::StatusOr<std::unique_ptr<T>> Packet::Consume() {
   // If type validation fails, returns error.
-  RETURN_IF_ERROR(ValidateAsType<T>());
+  MP_RETURN_IF_ERROR(ValidateAsType<T>());
   // Clients who use this function are responsible for ensuring that no
   // other thread is doing anything with this Packet.
   if (holder_.unique()) {
@@ -534,7 +518,7 @@ template <typename T>
 inline ::mediapipe::StatusOr<std::unique_ptr<T>> Packet::ConsumeOrCopy(
     bool* was_copied,
     typename std::enable_if<!std::is_array<T>::value>::type*) {
-  RETURN_IF_ERROR(ValidateAsType<T>());
+  MP_RETURN_IF_ERROR(ValidateAsType<T>());
   // If holder is the sole owner of the underlying data, consumes this packet.
   if (!holder_->HolderIsOfType<packet_internal::ForeignHolder<T>>() &&
       holder_.unique()) {
@@ -565,7 +549,7 @@ inline ::mediapipe::StatusOr<std::unique_ptr<T>> Packet::ConsumeOrCopy(
     bool* was_copied,
     typename std::enable_if<std::is_array<T>::value &&
                             std::extent<T>::value != 0>::type*) {
-  RETURN_IF_ERROR(ValidateAsType<T>());
+  MP_RETURN_IF_ERROR(ValidateAsType<T>());
   // If holder is the sole owner of the underlying data, consumes this packet.
   if (!holder_->HolderIsOfType<packet_internal::ForeignHolder<T>>() &&
       holder_.unique()) {

@@ -22,7 +22,7 @@ load("//mediapipe/framework/port:build_config.bzl", "mediapipe_cc_proto_library"
 proto_library(
     name = "graph_tensors_packet_generator_proto",
     srcs = ["graph_tensors_packet_generator.proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [
         "//mediapipe/framework:calculator_proto",
         "//mediapipe/framework:packet_generator_proto",
@@ -118,7 +118,7 @@ mediapipe_cc_proto_library(
         "//mediapipe/framework:calculator_cc_proto",
         "//mediapipe/framework:packet_generator_cc_proto",
     ],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":graph_tensors_packet_generator_proto"],
 )
 
@@ -129,7 +129,7 @@ mediapipe_cc_proto_library(
         "//mediapipe/framework:calculator_cc_proto",
         "@org_tensorflow//tensorflow/core:protos_all_cc",
     ],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":image_frame_to_tensor_calculator_proto"],
 )
 
@@ -137,7 +137,7 @@ mediapipe_cc_proto_library(
     name = "matrix_to_tensor_calculator_options_cc_proto",
     srcs = ["matrix_to_tensor_calculator_options.proto"],
     cc_deps = ["//mediapipe/framework:calculator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":matrix_to_tensor_calculator_options_proto"],
 )
 
@@ -145,7 +145,7 @@ mediapipe_cc_proto_library(
     name = "lapped_tensor_buffer_calculator_cc_proto",
     srcs = ["lapped_tensor_buffer_calculator.proto"],
     cc_deps = ["//mediapipe/framework:calculator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":lapped_tensor_buffer_calculator_proto"],
 )
 
@@ -153,7 +153,7 @@ mediapipe_cc_proto_library(
     name = "object_detection_tensors_to_detections_calculator_cc_proto",
     srcs = ["object_detection_tensors_to_detections_calculator.proto"],
     cc_deps = ["//mediapipe/framework:calculator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":object_detection_tensors_to_detections_calculator_proto"],
 )
 
@@ -164,7 +164,7 @@ mediapipe_cc_proto_library(
         "//mediapipe/framework:calculator_cc_proto",
         "@org_tensorflow//tensorflow/core:protos_all_cc",
     ],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":pack_media_sequence_calculator_proto"],
 )
 
@@ -172,7 +172,7 @@ mediapipe_cc_proto_library(
     name = "tensorflow_inference_calculator_cc_proto",
     srcs = ["tensorflow_inference_calculator.proto"],
     cc_deps = ["//mediapipe/framework:calculator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":tensorflow_inference_calculator_proto"],
 )
 
@@ -183,15 +183,26 @@ mediapipe_cc_proto_library(
         "//mediapipe/framework:packet_generator_cc_proto",
         "@org_tensorflow//tensorflow/core:protos_all_cc",
     ],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":tensorflow_session_from_frozen_graph_generator_proto"],
+)
+
+mediapipe_cc_proto_library(
+    name = "tensorflow_session_from_frozen_graph_calculator_cc_proto",
+    srcs = ["tensorflow_session_from_frozen_graph_calculator.proto"],
+    cc_deps = [
+        "//mediapipe/framework:calculator_cc_proto",
+        "@org_tensorflow//tensorflow/core:protos_all_cc",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [":tensorflow_session_from_frozen_graph_calculator_proto"],
 )
 
 mediapipe_cc_proto_library(
     name = "tensorflow_session_from_saved_model_generator_cc_proto",
     srcs = ["tensorflow_session_from_saved_model_generator.proto"],
     cc_deps = ["//mediapipe/framework:packet_generator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":tensorflow_session_from_saved_model_generator_proto"],
 )
 
@@ -199,7 +210,7 @@ mediapipe_cc_proto_library(
     name = "tensorflow_session_from_saved_model_calculator_cc_proto",
     srcs = ["tensorflow_session_from_saved_model_calculator.proto"],
     cc_deps = ["//mediapipe/framework:calculator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":tensorflow_session_from_saved_model_calculator_proto"],
 )
 
@@ -207,7 +218,7 @@ mediapipe_cc_proto_library(
     name = "tensor_squeeze_dimensions_calculator_cc_proto",
     srcs = ["tensor_squeeze_dimensions_calculator.proto"],
     cc_deps = ["//mediapipe/framework:calculator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":tensor_squeeze_dimensions_calculator_proto"],
 )
 
@@ -215,7 +226,7 @@ mediapipe_cc_proto_library(
     name = "tensor_to_image_frame_calculator_cc_proto",
     srcs = ["tensor_to_image_frame_calculator.proto"],
     cc_deps = ["//mediapipe/framework:calculator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":tensor_to_image_frame_calculator_proto"],
 )
 
@@ -226,7 +237,7 @@ mediapipe_cc_proto_library(
         "//mediapipe/framework:calculator_cc_proto",
         "//mediapipe/framework/formats:time_series_header_cc_proto",
     ],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":tensor_to_matrix_calculator_proto"],
 )
 
@@ -234,7 +245,7 @@ mediapipe_cc_proto_library(
     name = "tensor_to_vector_float_calculator_options_cc_proto",
     srcs = ["tensor_to_vector_float_calculator_options.proto"],
     cc_deps = ["//mediapipe/framework:calculator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":tensor_to_vector_float_calculator_options_proto"],
 )
 
@@ -245,7 +256,7 @@ mediapipe_cc_proto_library(
         "//mediapipe/calculators/core:packet_resampler_calculator_cc_proto",
         "//mediapipe/framework:calculator_cc_proto",
     ],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":unpack_media_sequence_calculator_proto"],
 )
 
@@ -253,7 +264,7 @@ mediapipe_cc_proto_library(
     name = "vector_float_to_tensor_calculator_options_cc_proto",
     srcs = ["vector_float_to_tensor_calculator_options.proto"],
     cc_deps = ["//mediapipe/framework:calculator_cc_proto"],
-    visibility = ["//mediapipe:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [":vector_float_to_tensor_calculator_options_proto"],
 )
 
@@ -417,6 +428,9 @@ cc_library(
         "//mediapipe:android": [
             "@org_tensorflow//tensorflow/core:android_tensorflow_lib_lite_nortti_lite_protos",
         ],
+        "//mediapipe:ios": [
+            "@org_tensorflow//tensorflow/core:ios_tensorflow_lib",
+        ],
     }),
     alwayslink = 1,
 )
@@ -435,7 +449,39 @@ cc_library(
         "//mediapipe:android": [
             "@org_tensorflow//tensorflow/core:android_tensorflow_lib_lite_nortti_lite_protos",
         ],
+        "//mediapipe:ios": [
+            "@org_tensorflow//tensorflow/core:ios_tensorflow_lib",
+        ],
     }),
+)
+
+cc_library(
+    name = "tensorflow_session_from_frozen_graph_calculator",
+    srcs = ["tensorflow_session_from_frozen_graph_calculator.cc"],
+    features = ["no_layering_check"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":tensorflow_session",
+        "//mediapipe/calculators/tensorflow:tensorflow_session_from_frozen_graph_calculator_cc_proto",
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework/tool:status_util",
+        "//mediapipe/framework/port:status",
+        "//mediapipe/framework/port:ret_check",
+    ] + select({
+        "//conditions:default": [
+            "//mediapipe/framework/port:file_helpers",
+            "@org_tensorflow//tensorflow/core:core",
+        ],
+        "//mediapipe:android": [
+            "@org_tensorflow//tensorflow/core:android_tensorflow_lib_lite_nortti_lite_protos",
+            "//mediapipe/android/file/base",
+        ],
+        "//mediapipe:ios": [
+            "@org_tensorflow//tensorflow/core:ios_tensorflow_lib",
+            "//mediapipe/android/file/base",
+        ],
+    }),
+    alwayslink = 1,
 )
 
 cc_library(
@@ -457,6 +503,10 @@ cc_library(
         ],
         "//mediapipe:android": [
             "@org_tensorflow//tensorflow/core:android_tensorflow_lib_lite_nortti_lite_protos",
+            "//mediapipe/android/file/base",
+        ],
+        "//mediapipe:ios": [
+            "@org_tensorflow//tensorflow/core:ios_tensorflow_lib",
             "//mediapipe/android/file/base",
         ],
     }),
@@ -728,6 +778,36 @@ cc_test(
 )
 
 cc_test(
+    name = "tensorflow_session_from_frozen_graph_calculator_test",
+    srcs = ["tensorflow_session_from_frozen_graph_calculator_test.cc"],
+    data = [":test_frozen_graph"],
+    linkstatic = 1,
+    deps = [
+        ":tensorflow_inference_calculator",
+        ":tensorflow_session",
+        ":tensorflow_session_from_frozen_graph_calculator",
+        "//mediapipe/calculators/tensorflow:tensorflow_session_from_frozen_graph_calculator_cc_proto",
+        "//mediapipe/framework:calculator_framework",
+        "//mediapipe/framework:calculator_runner",
+        "//mediapipe/framework:packet",
+        "//mediapipe/framework/deps:file_path",
+        "//mediapipe/framework/port:file_helpers",
+        "//mediapipe/framework/port:gtest_main",
+        "//mediapipe/framework/port:parse_text_proto",
+        "//mediapipe/framework/port:status",
+        "//mediapipe/framework/tool:tag_map_helper",
+        "//mediapipe/framework/tool:validate_type",
+        "@com_google_absl//absl/strings",
+        "@org_tensorflow//tensorflow/core:direct_session",
+        "@org_tensorflow//tensorflow/core:framework",
+        "@org_tensorflow//tensorflow/core:protos_all_cc",
+        "@org_tensorflow//tensorflow/core:testlib",
+        "@org_tensorflow//tensorflow/core/kernels:conv_ops",
+        "@org_tensorflow//tensorflow/core/kernels:math",
+    ],
+)
+
+cc_test(
     name = "tensorflow_session_from_frozen_graph_generator_test",
     srcs = ["tensorflow_session_from_frozen_graph_generator_test.cc"],
     data = [":test_frozen_graph"],
@@ -783,6 +863,7 @@ cc_test(
         "@org_tensorflow//tensorflow/core/kernels:io",
         "@org_tensorflow//tensorflow/core/kernels:state",
         "@org_tensorflow//tensorflow/core/kernels:string",
+        "@org_tensorflow//tensorflow/core/kernels/data:tensor_dataset_op",
     ],
 )
 
@@ -813,6 +894,7 @@ cc_test(
         "@org_tensorflow//tensorflow/core/kernels:io",
         "@org_tensorflow//tensorflow/core/kernels:state",
         "@org_tensorflow//tensorflow/core/kernels:string",
+        "@org_tensorflow//tensorflow/core/kernels/data:tensor_dataset_op",
     ],
 )
 
@@ -948,6 +1030,9 @@ cc_test(
         ],
         "//mediapipe:android": [
             "@org_tensorflow//tensorflow/core:android_tensorflow_lib_with_ops_lite_proto_no_rtti_lib",
+        ],
+        "//mediapipe:ios": [
+            "@org_tensorflow//tensorflow/core:ios_tensorflow_test_lib",
         ],
     }),
 )

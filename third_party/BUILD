@@ -19,8 +19,6 @@ exports_files(["LICENSE"])
 
 package(default_visibility = ["//visibility:public"])
 
-load("@gmaven_rules//:defs.bzl", "gmaven_artifact")
-
 cc_library(
     name = "opencv",
     visibility = ["//visibility:public"],
@@ -40,6 +38,9 @@ cc_library(
         "//mediapipe:android_arm64": [
             "@android_opencv//:libopencv_arm64-v8a",
         ],
+        "//mediapipe:ios": [
+            "@ios_opencv//:opencv",
+        ],
         "//mediapipe:macos": [
             "@macos_opencv//:opencv",
         ],
@@ -49,17 +50,71 @@ cc_library(
     }),
 )
 
+cc_library(
+    name = "libffmpeg",
+    visibility = ["//visibility:public"],
+    deps = select({
+        "//mediapipe:android_x86": [],
+        "//mediapipe:android_x86_64": [],
+        "//mediapipe:android_armeabi": [],
+        "//mediapipe:android_arm": [],
+        "//mediapipe:android_arm64": [],
+        "//mediapipe:ios": [],
+        "//mediapipe:macos": [
+            "@macos_ffmpeg//:libffmpeg",
+        ],
+        "//conditions:default": [
+            "@linux_ffmpeg//:libffmpeg",
+        ],
+    }),
+)
+
 android_library(
-    name = "android_constraint_layout",
+    name = "androidx_annotation",
     exports = [
-        gmaven_artifact("com.android.support.constraint:constraint_layout:aar:1.0.2"),
+        "@maven//:androidx_annotation_annotation",
     ],
 )
 
 android_library(
     name = "androidx_appcompat",
     exports = [
-        gmaven_artifact("androidx.appcompat:appcompat:aar:1.0.2"),
+        "@maven//:androidx_appcompat_appcompat",
+    ],
+)
+
+android_library(
+    name = "androidx_constraint_layout",
+    exports = [
+        "@maven//:androidx_constraintlayout_constraintlayout",
+    ],
+)
+
+android_library(
+    name = "androidx_core",
+    exports = [
+        "@maven//:androidx_core_core",
+    ],
+)
+
+android_library(
+    name = "androidx_legacy_support_v4",
+    exports = [
+        "@maven//:androidx_legacy_legacy_support_v4",
+    ],
+)
+
+android_library(
+    name = "androidx_material",
+    exports = [
+        "@maven//:com_google_android_material_material",
+    ],
+)
+
+android_library(
+    name = "androidx_recyclerview",
+    exports = [
+        "@maven//:androidx_recyclerview_recyclerview",
     ],
 )
 

@@ -67,13 +67,15 @@ REGISTER_CALCULATOR(DetectionLabelIdToTextCalculator);
 
 ::mediapipe::Status DetectionLabelIdToTextCalculator::Open(
     CalculatorContext* cc) {
+  cc->SetOffset(TimestampDiff(0));
+
   const auto& options =
       cc->Options<::mediapipe::DetectionLabelIdToTextCalculatorOptions>();
 
   std::string string_path;
   ASSIGN_OR_RETURN(string_path, PathToResourceAsFile(options.label_map_path()));
   std::string label_map_string;
-  RETURN_IF_ERROR(file::GetContents(string_path, &label_map_string));
+  MP_RETURN_IF_ERROR(file::GetContents(string_path, &label_map_string));
 
   std::istringstream stream(label_map_string);
   std::string line;

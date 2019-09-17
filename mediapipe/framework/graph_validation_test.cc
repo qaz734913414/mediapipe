@@ -32,7 +32,7 @@ namespace mediapipe {
 namespace {
 
 // Shows validation success for a graph and a subgraph.
-TEST(ValidatedGraphConfigTest, InitilizeGraphFromProtos) {
+TEST(ValidatedGraphConfigTest, InitializeGraphFromProtos) {
   auto config_1 = ParseTextProtoOrDie<CalculatorGraphConfig>(R"(
     type: "PassThroughGraph"
     input_stream: "INPUT:stream_1"
@@ -59,10 +59,10 @@ TEST(ValidatedGraphConfigTest, InitilizeGraphFromProtos) {
   )");
 
   GraphValidation validation_1;
-  MEDIAPIPE_EXPECT_OK(
+  MP_EXPECT_OK(
       validation_1.Validate({config_1, config_2}, {}, {}, "PassThroughGraph"));
   CalculatorGraph graph_1;
-  MEDIAPIPE_EXPECT_OK(
+  MP_EXPECT_OK(
       graph_1.Initialize({config_1, config_2}, {}, {}, "PassThroughGraph"));
   EXPECT_THAT(
       graph_1.Config(),
@@ -79,9 +79,9 @@ TEST(ValidatedGraphConfigTest, InitilizeGraphFromProtos) {
       )")));
 
   GraphValidation validation_2;
-  MEDIAPIPE_EXPECT_OK(validation_2.Validate({config_1, config_2}, {}));
+  MP_EXPECT_OK(validation_2.Validate({config_1, config_2}, {}));
   CalculatorGraph graph_2;
-  MEDIAPIPE_EXPECT_OK(graph_2.Initialize({config_1, config_2}, {}));
+  MP_EXPECT_OK(graph_2.Initialize({config_1, config_2}, {}));
   EXPECT_THAT(
       graph_2.Config(),
       EqualsProto(::mediapipe::ParseTextProtoOrDie<CalculatorGraphConfig>(R"(
@@ -102,7 +102,7 @@ TEST(ValidatedGraphConfigTest, InitilizeGraphFromProtos) {
 }
 
 // Shows validation failure due to an unregistered subgraph.
-TEST(ValidatedGraphConfigTest, InitilizeGraphFromLinker) {
+TEST(ValidatedGraphConfigTest, InitializeGraphFromLinker) {
   EXPECT_FALSE(SubgraphRegistry::IsRegistered("DubQuadTestSubgraph"));
   ValidatedGraphConfig builder_1;
   ::mediapipe::Status status_1 =
@@ -114,7 +114,7 @@ TEST(ValidatedGraphConfigTest, InitilizeGraphFromLinker) {
 }
 
 // Shows validation success for a graph and a template subgraph.
-TEST(ValidatedGraphConfigTest, InitilizeTemplateFromProtos) {
+TEST(ValidatedGraphConfigTest, InitializeTemplateFromProtos) {
   mediapipe::tool::TemplateParser::Parser parser;
   CalculatorGraphTemplate config_1;
   CHECK(parser.ParseFromString(R"(
@@ -164,11 +164,11 @@ TEST(ValidatedGraphConfigTest, InitilizeTemplateFromProtos) {
     })");
 
   GraphValidation validation_1;
-  MEDIAPIPE_EXPECT_OK(validation_1.Validate({config_2}, {config_1}, {},
-                                            "PassThroughGraph", &options));
+  MP_EXPECT_OK(validation_1.Validate({config_2}, {config_1}, {},
+                                     "PassThroughGraph", &options));
   CalculatorGraph graph_1;
-  MEDIAPIPE_EXPECT_OK(graph_1.Initialize({config_2}, {config_1}, {},
-                                         "PassThroughGraph", &options));
+  MP_EXPECT_OK(graph_1.Initialize({config_2}, {config_1}, {},
+                                  "PassThroughGraph", &options));
   EXPECT_THAT(
       graph_1.Config(),
       EqualsProto(::mediapipe::ParseTextProtoOrDie<CalculatorGraphConfig>(R"(
@@ -185,9 +185,9 @@ TEST(ValidatedGraphConfigTest, InitilizeTemplateFromProtos) {
       )")));
 
   GraphValidation validation_2;
-  MEDIAPIPE_EXPECT_OK(validation_2.Validate({config_2}, {config_1}));
+  MP_EXPECT_OK(validation_2.Validate({config_2}, {config_1}));
   CalculatorGraph graph_2;
-  MEDIAPIPE_EXPECT_OK(graph_2.Initialize({config_2}, {config_1}));
+  MP_EXPECT_OK(graph_2.Initialize({config_2}, {config_1}));
   EXPECT_THAT(
       graph_2.Config(),
       EqualsProto(::mediapipe::ParseTextProtoOrDie<CalculatorGraphConfig>(R"(

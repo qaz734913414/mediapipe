@@ -14,10 +14,10 @@ bazel-bin/mediapipe/examples/desktop/hello_world/hello_world --logtostderr
 
 **TFlite Object Detection**
 
-To build the objet detection demo using a TFLite model on desktop, use:
+To build the object detection demo using a TFLite model on desktop, use:
 
 ```
-bazel build -c opt mediapipe/examples/desktop/object_detection:object_detection_tflite --define 'MEDIAPIPE_DISABLE_GPU=1'
+bazel build -c opt mediapipe/examples/desktop/object_detection:object_detection_tflite --define MEDIAPIPE_DISABLE_GPU=1
 ```
 
 and run it using:
@@ -35,7 +35,7 @@ To build the object detection demo using a TensorFlow model on desktop, use:
 
 ```
 bazel build -c opt mediapipe/examples/desktop/object_detection:object_detection_tensorflow \
-  --define 'MEDIAPIPE_DISABLE_GPU=1'
+  --define MEDIAPIPE_DISABLE_GPU=1
 ```
 
 and run it using:

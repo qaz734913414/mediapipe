@@ -59,6 +59,7 @@ class MediaSequenceTest(tf.test.TestCase):
     ms.set_image_height(47, example)
     ms.set_image_width(47, example)
     ms.set_image_frame_rate(0.47, example)
+    ms.set_image_data_path(b"test", example)
     ms.set_forward_flow_format(b"test", example)
     ms.set_forward_flow_channels(47, example)
     ms.set_forward_flow_colorspace(b"test", example)
@@ -74,6 +75,7 @@ class MediaSequenceTest(tf.test.TestCase):
     ms.set_instance_segmentation_height(47, example)
     ms.set_instance_segmentation_width(47, example)
     ms.set_instance_segmentation_object_class_index((47, 49), example)
+    ms.set_bbox_parts((b"HEAD", b"TOE"), example)
     # feature lists
     ms.add_image_encoded(b"test", example)
     ms.add_image_timestamp(47, example)

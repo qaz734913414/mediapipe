@@ -34,8 +34,18 @@ static pthread_key_t egl_release_thread_key;
 static pthread_once_t egl_release_key_once = PTHREAD_ONCE_INIT;
 
 static void EglThreadExitCallback(void* key_value) {
+#if defined(__ANDROID__)
   eglMakeCurrent(EGL_NO_DISPLAY, EGL_NO_SURFACE, EGL_NO_SURFACE,
                  EGL_NO_CONTEXT);
+#else
+  // Some implementations have chosen to allow EGL_NO_DISPLAY as a valid display
+  // parameter for eglMakeCurrent. This behavior is not portable to all EGL
+  // implementations, and should be considered as an undocumented vendor
+  // extension.
+  // https://www.khronos.org/registry/EGL/sdk/docs/man/html/eglMakeCurrent.xhtml
+  eglMakeCurrent(eglGetDisplay(EGL_DEFAULT_DISPLAY), EGL_NO_SURFACE,
+                 EGL_NO_SURFACE, EGL_NO_CONTEXT);
+#endif
   eglReleaseThread();
 }
 
@@ -70,8 +80,8 @@ GlContext::StatusOrGlContext GlContext::Create(const GlContext& share_context,
 GlContext::StatusOrGlContext GlContext::Create(EGLContext share_context,
                                                bool create_thread) {
   std::shared_ptr<GlContext> context(new GlContext());
-  RETURN_IF_ERROR(context->CreateContext(share_context));
-  RETURN_IF_ERROR(context->FinishInitialization(create_thread));
+  MP_RETURN_IF_ERROR(context->CreateContext(share_context));
+  MP_RETURN_IF_ERROR(context->FinishInitialization(create_thread));
   return std::move(context);
 }
 
@@ -146,7 +156,7 @@ GlContext::StatusOrGlContext GlContext::Create(EGLContext share_context,
     LOG(WARNING) << "Fall back on OpenGL ES 2.";
     status = CreateContextInternal(external_context, 2);
   }
-  RETURN_IF_ERROR(status);
+  MP_RETURN_IF_ERROR(status);
 
   EGLint pbuffer_attr[] = {EGL_WIDTH, 1, EGL_HEIGHT, 1, EGL_NONE};
 
